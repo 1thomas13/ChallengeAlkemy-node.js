@@ -1,0 +1,31 @@
+{
+  "name": "challengealkemy-node",
+  "version": "1.0.0",
+  "description": "alkemy challenge",
+  "main": "index.js",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mariadb": "^3.0.0",
+    "sequelize": "^6.20.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1thomas13/ChallengeAlkemy-node.js.git"
+  },
+  "author": "Thomas Barreto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1thomas13/ChallengeAlkemy-node.js/issues"
+  },
+  "homepage": "https://github.com/1thomas13/ChallengeAlkemy-node.js#readme"
+}
