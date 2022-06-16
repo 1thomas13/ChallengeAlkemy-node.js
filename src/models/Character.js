@@ -1,28 +1,29 @@
 import sequelize from '../config/connection.js'
 import { DataTypes } from 'sequelize';
 
-const Movie = sequelize.define('Movie', {
+const Character = sequelize.define('Character', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey:true,
       autoIncrement: true
     },
-    img: {
-        type: DataTypes.STRING,
-        allowNull: false
+    name: {
+        type: DataTypes.STRING
     },
-    title: {
+    img: {
+        type: DataTypes.STRING
+    },
+    age: {
         type: DataTypes.INTEGER
     },
-    dateCreacion: {
-        type: DataTypes.DATE
+    weight: {
+        type: DataTypes.STRING
     },
-    calificacion: {
+    history: {
         type: DataTypes.STRING
     },
   }, {
     timestamps: false
 });
-  
 
-export default Movie
+export default Character

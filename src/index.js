@@ -1,5 +1,7 @@
 import express from 'express'
 const app = express()
+import dotenv from 'dotenv'
+dotenv.config()
 
 app.use(express.json());
 
@@ -8,8 +10,12 @@ app.get('/',(req,res) => {
 })
 
 import charactersRoutes from './characters/routes.js'
+import authRoutes from './auth/routes.js'
+import moviesRoutes from './movies/routes.js'
 
 app.use('/characters', charactersRoutes)
+app.use('/auth', authRoutes)
+app.use('/movies', moviesRoutes)
 
 
 
