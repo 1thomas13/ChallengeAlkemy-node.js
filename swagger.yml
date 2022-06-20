@@ -1,0 +1,529 @@
+openapi: "3.0.0"
+info:
+  title: API-DISNEY-ALKEMY
+  version: "1.0"
+  description: Api para explorar el mundo de disney
+
+servers:
+  - url: http://localhost:3000
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+
+security:
+  - bearerAuth: []
+
+
+paths:
+  
+  /auth/register:
+    post:
+      tags:
+        - Usuarios
+      summary: Crear usuario
+
+      responses:
+        "201":
+          description: Usuario Creado Correctamente
+        "400":
+          description: Debes ingresar todos los campos, la password debe tener mas de 5 caracteres, el usuario mas de 3, el email debe ser valido y solo puede haber una cuenta con un email y username
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {'message': The password must exceed 5 characters'}  
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: username
+                  example: ThomasBarreto123
+                password:
+                  type: string
+                  description: contraseña
+                  example: 123456
+                email:
+                  type: string
+                  description: Email del usuario
+                  example: thomi.b137@gmail.com
+  /auth/login:
+      post:
+        tags:
+        - Usuarios
+        summary: Nos permite logearnos
+
+        responses:
+          "400":
+            description: Al momento de logearse debemos ingresar el email, la password y que pertenezcan a un usuario
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'msg': incorrects credentials'}
+          "200":
+            description: Success
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'token': 0KeQl6msTj8'}
+          
+        requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        password:
+                          type: string
+                          description: contraseña
+                          example: 123456
+                        email:
+                          type: string
+                          description: Email del usuario
+                          example: thomi.b137@gmail.com
+         
+  /movies:
+    get:
+      tags:
+        - "Peliculas/Series"
+      summary: Muestra todas las peliculas/series
+      responses:
+        "200":
+          description: Muestra las direcciones del usuario en cuestion
+            sucess
+        "401":
+          description: Debes logearte Y tu token tiene que ser valido
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {'msg': you must log in'}
+        "400":
+          description: No se encontraron peliculas/series
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {'msg': No movies/series found'}
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Ingresar el nombre de la pelicula/serie que quieras filtrar
+        - in: query
+          name: order
+          schema:
+            type: string
+          description: Permite ordenar por fecha de creacion de forma creciente con (ASC) o decreciente con (DESC)
+        - in: query
+          name: genre
+          schema:
+            type: integer
+          description: Ingresar el id del genero para ver todas las peliculas que tengan el mismo
+  
+    post:
+      tags:
+        - "Peliculas/Series"
+      summary: Crear Pelicula/serie
+      responses:
+        "200":
+          description: Pelicula/Serie Creada Correctamente
+        "401":
+          description: Debes logearte Y tu token tiene que ser valido
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {'msg': you must log in'}
+        "400":
+          description: Debes Completar todos los campos, La clasificacion debe ser entre 1 y 5, y el genreId debe pertenecer a un genero
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {'message': Fill in the fields!'}
+ 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Nombre de la Pelicula/Serie
+                  example: Chicken Little
+                img:
+                  type: string
+                  description: URL de una imagen
+                  example: https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/D9DC67628B969C08200C9974D573719C74F8C1AFD33C499EA67D8C7C7A1E5C51/scale?width=1200&aspectRatio=1.78&format=jpeg
+                calificacion:
+                  type: integer
+                  description: calificacion (1 a 5) del la Pelicula/Serie
+                  example: 5
+                genreId:
+                  type: integer
+                  description: Id de un genero
+                  example: 1
+
+  /movies/{id}:
+    get:
+      tags:
+        - "Peliculas/Series"
+      summary: Busca una pelicula/serie por su id y muestra todos sus datos con sus personajes
+      responses:
+          "200":
+            description: Muestra la pelicula con todos sus datos
+          "401":
+            description: Debes logearte Y tu token tiene que ser valido
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'msg': you must log in'}
+          "400":
+            description: El id de la pelicula/serie debe pertenecer a una
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'message': The movie/serie not exist!'}
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Ingresar el id de la pelicula/serie para mostrar su informacion
+          example: 1
+    put:
+      tags:
+        - "Peliculas/Series"
+      summary: Modificar  una pelicula/serie ya existente
+      responses:
+          "200":
+            description: Modifica una pelicula/serie
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'message': Successfully modified Movie/serie!}
+          "401":
+            description: Debes logearte Y tu token tiene que ser valido
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'msg': you must log in'}
+          "404":
+            description: El producto no existe
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'message': Movie/serie not exist'}
+      parameters:
+          - in: path
+            name: productid
+            schema:
+              type: integer
+            required: true
+            description: Ingresar el id del producto a modificar
+            example: 1
+      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Nombre de la Pelicula/Serie
+                  example: Chicken Little
+                img:
+                  type: string
+                  description: URL de una imagen
+                  example: https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/D9DC67628B969C08200C9974D573719C74F8C1AFD33C499EA67D8C7C7A1E5C51/scale?width=1200&aspectRatio=1.78&format=jpeg
+                calificacion:
+                  type: integer
+                  description: calificacion (1 a 5) del la Pelicula/Serie
+                  example: 5
+                genreId:
+                  type: integer
+                  description: Id de un genero
+                  example: 1
+
+    delete:
+      tags:
+        - "Peliculas/Series"
+      summary: Nos permite eleminar una pelicula/serie
+      responses:
+          "200":
+            description: Modifica una pelicula/serie
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'message': Successfully deleted Movie/serie!}
+          "401":
+            description: Debes logearte Y tu token tiene que ser valido
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'msg': you must log in'}
+          "404":
+            description: El producto no existe
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'message': Movie/serie not exist'}
+      parameters:
+          - in: path
+            name: id
+            schema:
+              type: integer
+            required: true
+            description: Ingresar el id de la pelicula/serie para eleminar
+            example: 1
+   
+  /characters:
+      get:
+        tags:
+          - "Personajes"
+        summary: Muestra todas los personajes
+        responses:
+          "200":
+            description: Muestra todas los personajes
+          "401":
+            description: Debes logearte Y tu token tiene que ser valido
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'msg': you must log in'}
+          "404":
+            description: No se encontraron personajes
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'msg': No characters found'}
+        parameters:
+          - in: query
+            name: name
+            schema:
+              type: string
+            description: Ingresar el nombre de el peronaje que quieras filtrar
+          - in: query
+            name: age
+            schema:
+              type: integer
+            description: Ingrese una edad para mostrar todos los personajes con esa edad
+          - in: query
+            name: movies
+            schema:
+              type: integer
+            description: Ingresar el id de la pelicula para ver los personajes que estan en la misma
+    
+      post:
+        tags:
+          - "Personajes"
+        summary: Crear Personajes
+        responses:
+          "200":
+            description: Personaje Creada Correctamente
+          "401":
+            description: Debes logearte Y tu token tiene que ser valido
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'msg': you must log in'}
+          "400":
+            description: Debes Completar todos los campos, asignarle una o varias peliculas/series y que la pelicula/serie asignada exista
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'message': You must assign at least one movie or series to a character'}
+  
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  characters:
+                    type: array
+                    description: Array de pedidos. Si quiere pedir mas de un producto diferente se le debe agregar otro objeto al array con sus 2 propiedades(productId y amount)
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: Pez fuera del agua
+                        img:
+                          type: string
+                          example: https://static.wikia.nocookie.net/disney/images/2/24/PezFueraDelAgua.png/revision/latest?cb=20130315135654&path-prefix=es
+                        age:
+                          type: integer
+                          example: 2
+                        weight:
+                          type: integer
+                          example: 5kg
+                        history:
+                          type: string
+                          example: Un pez que nacio en California
+                        movies:
+                          type: array
+                          items: 
+                            type: object
+                            properties:
+                              movieId: 
+                                type: integer
+                                example: 1
+
+  /characters/{id}:
+    get:
+      tags:
+          - "Personajes"
+      summary: Busca un personaje por su id y muestra todos sus datos con sus peliculas/series asociadas
+      responses:
+          "200":
+            description: Muestra personaje con todos sus datos y sus peliculas/series asociadas
+          "401":
+            description: Debes logearte Y tu token tiene que ser valido
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'msg': you must log in'}
+          "404":
+            description: El id de el personaje debe pertenecer a uno
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'message': The character not exist!'}
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Ingresar el id del personaje para mostrar su informacion
+          example: 1
+    put:
+      tags:
+          - "Personajes"
+      summary: Modificar un personaje ya existente
+      responses:
+          "200":
+            description: Modifica una pelicula/serie
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'message': Successfully modified Movie/serie!}
+          "401":
+            description: Debes logearte Y tu token tiene que ser valido
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'msg': you must log in'}
+          "400":
+            description: Debes asignarle una o varias peliculas/series y que la pelicula/serie asignada exista
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'message': You must assign at least one movie or series to a character'}
+      parameters:
+          - in: path
+            name: productid
+            schema:
+              type: integer
+            required: true
+            description: Ingresar el id del producto a modificar
+            example: 1
+      
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Pez fuera del agua
+                  img:
+                    type: string
+                    example: https://static.wikia.nocookie.net/disney/images/2/24/PezFueraDelAgua.png/revision/latest?cb=20130315135654&path-prefix=es
+                  age:
+                    type: integer
+                    example: 2
+                  weight:
+                    type: integer
+                    example: 5kg
+                  history:
+                    type: string
+                    example: Un pez que nacio en California
+                  movies:
+                    type: array
+                    items: 
+                      type: object
+                      properties:
+                        movieId: 
+                          type: integer
+                          example: 1
+
+    delete:
+      tags:
+          - "Personajes"
+      summary: Nos permite eleminar un personaje
+      responses:
+          "200":
+            description: Elemina un personaje
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'message': Successfully deleted character}
+          "401":
+            description: Debes logearte Y tu token tiene que ser valido
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'msg': you must log in'}
+          "404":
+            description: El producto no existe
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example: {'message': Character not exist'}
+      parameters:
+          - in: path
+            name: id
+            schema:
+              type: integer
+            required: true
+            description: Ingresar el id de la pelicula/serie para eleminar
+            example: 1
+
+

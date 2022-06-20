@@ -34,7 +34,7 @@ export const register = async (req, res) =>{
         }});
 
         if(repeatUser) {
-            return res.status(400).json({ msg: 'This email or usernam already exists' })
+            return res.status(400).json({ msg: 'This email or username already exists' })
         }
 
         const salt = bcrypt.genSaltSync(10);

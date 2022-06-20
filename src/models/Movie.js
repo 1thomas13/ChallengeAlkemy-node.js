@@ -14,7 +14,7 @@ const Movie = sequelize.define('Movie', {
         type: DataTypes.STRING
     },
     dateCreation: {
-        type: DataTypes.STRING
+        type: DataTypes.DATEONLY
     },
     calificacion: {
         type: DataTypes.INTEGER

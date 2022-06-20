@@ -14,6 +14,18 @@ Genre.hasMany(Movie, { foreignKey: 'genreId' })
 ;(async () => {
     await sequelize.sync({ force: true });
     console.log('Database & tables created!')
+
+    await Genre.create({
+        img: 'https:',
+        name: 'Adventure'
+      })
+    
+    await Genre.create({
+        img: 'hhas',
+        name: 'Action'
+    })
+
+
 })()
 
 export  {

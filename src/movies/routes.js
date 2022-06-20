@@ -9,7 +9,7 @@ router.get('/:id', validateToken, getDetailMovie)
 
 router.post('/', validateToken, createMovie)
 
-router.patch('/:id', validateToken, editMovie)
+router.put('/:id', validateToken, editMovie)
 
 router.delete('/:id', validateToken, deleteMovie)
 
