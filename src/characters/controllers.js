@@ -92,51 +92,57 @@ export const editCharacter = async(req,res) => {
 
     const {id} = req.params
     const {img, name, age, weight, history, movies} = req.body
-
-    const character = await Character.findOne({where: {id:id}})
-
-    if (!character){
-        return res.status(404).json({ msg: 'Character not exist' })
-    }
-      
-    character.img = img || character.img
-    character.name = name || character.name
-    character.age = age || character.age
-    character.weight = weight || character.weight
-    character.history = history || character.history
-
-    if(movies){
-        const movieCharacters = await MovieCharacter.findAll({where: {characterId:character.id}})
-
-        const currentAssociatedMovies = movieCharacters.map((movie)=>{
-            return movie.movieId
-        })
-    
-        const futureAssociatedMovies = movies.map((movie)=>{
-            return movie.movieId
-        })
-    
-        const newAssociatedMovies = movies.filter( movie => (currentAssociatedMovies.includes(movie.movieId) ? false : true))
-            
-        newAssociatedMovies.forEach( async (newMovies) => {
-    
-            const movieCharacter = {
-                movieId: newMovies.movieId,
-                characterId: character.id
-            }
-            
-            await MovieCharacter.create(movieCharacter)
-        });  
-            
-        const deleteAssociatedMovies = movieCharacters.filter( movie => (futureAssociatedMovies.includes(movie.movieId) ? false : true))
+  
+    try {
+        const character = await Character.findOne({where: {id:id}})
+        console.log('q  uea pasdasdsa')
+        if (!character){
+            return res.status(404).json({ msg: 'Character not exist' })
+        }
         
-        deleteAssociatedMovies.forEach(async (deleteMovie)=>{
-            await MovieCharacter.destroy({where: {movieId:deleteMovie.movieId, characterId: character.id}})
-        }) 
-    }
-   
+        character.img = img || character.img
+        character.name = name || character.name
+        character.age = age || character.age
+        character.weight = weight || character.weight
+        character.history = history || character.history
+
+        if(movies){
+            const movieCharacters = await MovieCharacter.findAll({where: {characterId:character.id}})
+
+            const currentAssociatedMovies = movieCharacters.map((movie)=>{
+                return movie.movieId
+            })
         
-    res.json({msg:'Successfully modified character'})
+            const futureAssociatedMovies = movies.map((movie)=>{
+                return movie.movieId
+            })
+        
+            const newAssociatedMovies = movies.filter( movie => (currentAssociatedMovies.includes(movie.movieId) ? false : true))
+                
+            newAssociatedMovies.forEach( async (newMovies) => {
+        
+                const movieCharacter = {
+                    movieId: newMovies.movieId,
+                    characterId: character.id
+                }
+                
+                await MovieCharacter.create(movieCharacter)
+            });  
+                
+            const deleteAssociatedMovies = movieCharacters.filter( movie => (futureAssociatedMovies.includes(movie.movieId) ? false : true))
+            
+            deleteAssociatedMovies.forEach(async (deleteMovie)=>{
+                await MovieCharacter.destroy({where: {movieId:deleteMovie.movieId, characterId: character.id}})
+            }) 
+        }
+    
+        await character.save()
+        
+        res.json({msg:'Successfully modified character'})
+
+    } catch (error) {
+        res.json({error})
+    }
 }
 
 export const deleteCharacter = async(req,res) => {

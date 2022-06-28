@@ -99,7 +99,7 @@ export const createMovie = async(req,res) => {
 export const editMovie = async(req,res) => {
 
     const {id} = req.params
-    const {img, title, dateCreation, calificacion} = req.body
+    const {img, title, genreId, calificacion} = req.body
 
    try {
 
@@ -108,11 +108,17 @@ export const editMovie = async(req,res) => {
         if(!movie){
             return res.status(404).json({ msg: 'Movie/serie not exist' })
         }
+
+        const genre = await Genre.findOne({where:{id:genreId}})
+
+        if(!genre) {
+            return res.status(400).json({msg:'The genreId does not belong to a gender'})
+        }
      
         movie.img = img || movie.img
         movie.title = title || movie.title
-        movie.dateCreation = dateCreation || movie.dateCreation
         movie.calificacion = calificacion || movie.calificacion
+        movie.genreId = genreId ||  movie.genreId
     
         await movie.save()
 

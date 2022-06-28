@@ -12,15 +12,22 @@
     "jsonwebtoken": "^8.5.1",
     "mariadb": "^3.0.0",
     "nodemailer": "^6.7.5",
-    "sequelize": "^6.20.1"
+    "redoc-cli": "^0.13.16",
+    "sequelize": "^6.21.0",
+    "swagger-jsdoc": "^6.2.1",
+    "swagger-ui-express": "^4.4.0"
   },
   "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.0.0",
     "nodemon": "^2.0.16"
   },
   "scripts": {
-    "start": " node ./srcindex.js",
+    "start": " node ./src/index.js",
     "dev": "nodemon ./src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "doc": "redoc-cli bundle -o index.html swagger.yml"
   },
   "repository": {
     "type": "git",

@@ -234,7 +234,7 @@ paths:
                   example: {'message': Movie/serie not exist'}
       parameters:
           - in: path
-            name: productid
+            name: id
             schema:
               type: integer
             required: true
@@ -454,11 +454,11 @@ paths:
                   example: {'message': You must assign at least one movie or series to a character'}
       parameters:
           - in: path
-            name: productid
+            name: id
             schema:
               type: integer
             required: true
-            description: Ingresar el id del producto a modificar
+            description: Ingresar el id del personaje a modificar
             example: 1
       
       requestBody:
@@ -525,5 +525,3 @@ paths:
             required: true
             description: Ingresar el id de la pelicula/serie para eleminar
             example: 1
-
-
