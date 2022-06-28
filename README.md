@@ -55,6 +55,6 @@ Para ver la documentacion podras acceder desde el archivo html generado o descar
 
 
 
-**Thomas Barreto** - [1thomas13](https://gitlab.com/1thomas13) 
+**Thomas Barreto** -- [1thomas13](https://gitlab.com/1thomas13) 
 
 Challenge propuesto por [Alkemy](https://www.alkemy.org/)
