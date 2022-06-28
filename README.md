@@ -1,3 +1,30 @@
+
+# ChallengeAlkemy-node.js
+
+Api para explorar el mundo de disney
+
+
+## Instalacion: 
+
+ - Clonar el repositorio https://github.com/1thomas13/ChallengeAlkemy-node.js.git
+ - Instalar dependencias (npm install)
+ - crear un archivo .env similar al .env.example
+
+
+## Variables de entorno
+
+
+```
+SERVER_PORT: 3000
+DB_NAME: 'alkemy-node'
+DB_USER: 'root'
+DB_PASSWORD: ''
+DB_HOST: 'localhost'
+PASS_JWT: 1234
+
+EMAIL_PASS = 12345
+EMAIL_HOST = host
+EMAIL_USER = user
 EMAIL_PORT = 2525
 ```
 ## Iniciar la api
