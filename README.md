@@ -50,7 +50,7 @@ Generar html con la documentacion
   npm run doc
 ```
 
-Para ver la documentacion podras acceder desde el archivo html generado o descargandote la extension de vscode llamada Swagger Viewer y abrir el archivo swagger.yml con la extension instalada
+Para ver la documentacion podras acceder desde el archivo html generado o descargandote la extension de vscode llamada Swagger Viewer y abrir el archivo swagger.yml con la extension instalada.
 
 
 
